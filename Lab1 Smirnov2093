@@ -1,0 +1,82 @@
+#include <iostream>
+#include <cstdlib>
+#include <ctime>
+using namespace std;
+
+int Random(int min, int max) 
+{
+    return min + rand() % (max - min + 1);
+}
+
+int sumPositiveElements(int* array, int size) 
+{
+    int sum = 0;
+    for (int i = 0; i < size; i++) 
+    {
+        array[i] = Random(-100, 100);
+        if (array[i] > 0 && array[i] % 2 == 0) 
+        {
+            sum += array[i];
+        }
+    }
+    return sum;
+}
+
+void compressArray(int* array, int size, int a, int b) 
+{
+    int newSize = size;
+    for (int i = 0; i < newSize; i++) 
+    {
+        if (array[i] >= a && array[i] <= b) 
+        {
+            for (int j = i; j < newSize - 1; j++) 
+            {
+                array[j] = array[j + 1];
+            }
+            newSize--;
+            i--;
+        }
+    }
+    for (int i = newSize; i < size; i++) 
+    {
+        array[i] = 0;
+    }
+}
+
+int main() 
+{
+    setlocale(LC_ALL, "Russian");
+
+    int size;
+    cout << "Введите размер массива: ";
+    cin >> size;
+
+    int* array = new int[size];
+    int sum = sumPositiveElements(array, size);
+
+    cout << "Массив случайных чисел: ";
+    for (int i = 0; i < size; i++) 
+    {
+        cout << array[i] << " ";
+    }
+    cout << endl;
+
+    cout << "Сумма четных положительных элементов: " << sum << endl;
+
+    int a, b;
+    cout << "Введите значения a и b для сжатия массива: ";
+    cin >> a >> b;
+
+    compressArray(array, size, a, b);
+
+    cout << "Массив после сжатия: ";
+    for (int i = 0; i < size; i++) 
+    {
+        cout << array[i] << " ";
+    }
+    cout << endl;
+
+    delete[] array;
+
+    return 0;
+}
